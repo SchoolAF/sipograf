@@ -237,7 +237,7 @@ if (isset($error_msg)) {
 
       <div class="button-container">
         <button type="submit">Login</button>
-        <a href="index.html" class="btn-back">Kembali</a>
+        <a href="index.php" class="btn-back">Kembali</a>
       </div>
     </form>
   </div>
