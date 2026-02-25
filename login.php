@@ -4,8 +4,6 @@ session_start();
 
 // Konfigurasi database
 
-// Menghubungkan otomatis jika menggunakan Coolify MariaDB / Database URL
-
 // Hardcoded Connect to Internal MariaDB Database Hosted on Coolify 
 $servername = "tksg48cgw04gk08sowc84sss";
 $username = "mysql";
@@ -13,13 +11,6 @@ $password = "poAAEXvLO3QsOiYz66me2qBciagEvbpg1To3kf2VXYUagDEht6sXzcSbV21uJnZI";
 $dbname   = "default";
 $port = 3306;
 
-}
-$port = getenv('DB_PORT') ?: 3306;
-}
-$port = getenv('DB_PORT') ?: 3306;
-}
-$port = getenv('DB_PORT') ?: 3306;
-}
 // Membuat koneksi ke database
 $conn = new mysqli($servername, $username, $password, $dbname, $port);
 
