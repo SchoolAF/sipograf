@@ -37,7 +37,7 @@
 
 ## 📂 Struktur Proyek 
 
-- **`index.html`** – File utama untuk menjalankan aplikasi
+- **`index.php`** – File utama untuk menjalankan aplikasi
 
 - **`connection.php`** – Pengaturan koneksi database
 

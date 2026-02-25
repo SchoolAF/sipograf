@@ -21,8 +21,8 @@
 
             <div class="links">
               <ul>
-                <li><a href="index.html">Beranda</a></li>
-                <li><a href="login.html" class="btn">Login</a></li>
+                <li><a href="index.php">Beranda</a></li>
+                <li><a href="login_form.html" class="btn">Login</a></li>
               </ul>
             </div>
 
@@ -47,7 +47,7 @@
                 lebih sehat.
               </p>
               <div class="cta">
-                <a href="login.html" class="btn">Get started</a>
+                <a href="login_form.html" class="btn">Get started</a>
               </div>
             </div>
 
