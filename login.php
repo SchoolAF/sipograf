@@ -3,13 +3,25 @@
 session_start();
 
 // Konfigurasi database
-$servername = getenv('DB_HOST') ?: "localhost:3307";
-$username = getenv('DB_USER') ?: "root";
-$password = getenv('DB_PASS') !== false ? getenv('DB_PASS') : "";
-$dbname = getenv('DB_NAME') ?: "dbsipograf1";
 
+// Menghubungkan otomatis jika menggunakan Coolify MariaDB / Database URL
+$db_url = getenv('DATABASE_URL');
+if ($db_url) {
+    $url = parse_url($db_url);
+    $servername = $url['host'] ?? "127.0.0.1";
+    $username = $url['user'] ?? "root";
+    $password = $url['pass'] ?? "";
+    $dbname   = isset($url['path']) ? ltrim($url['path'], '/') : "dbsipograf1";
+    $port = $url['port'] ?? 3306;
+} else {
+    $servername = getenv('DB_HOST') ?: "localhost";
+    $username = getenv('DB_USER') ?: "root";
+    $password = getenv('DB_PASS') !== false ? getenv('DB_PASS') : "";
+    $dbname   = getenv('DB_NAME') ?: "dbsipograf1";
+    $port = getenv('DB_PORT') ?: 3306;
+}
 // Membuat koneksi ke database
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname, $port);
 
 // Memeriksa koneksi
 if ($conn->connect_error) {
