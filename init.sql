@@ -277,7 +277,7 @@ CREATE TABLE `v_laporan_tumbuh_kembang` (
 --
 DROP TABLE IF EXISTS `v_laporan_kegiatan`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_laporan_kegiatan`  AS SELECT `d`.`id_daftar` AS `id_daftar`, `j`.`nama_kegiatan` AS `nama_kegiatan`, `j`.`tanggal` AS `tgl_kegiatan`, `j`.`waktu` AS `waktu`, `j`.`tempat` AS `tempat`, `u`.`nama_lengkap` AS `nama_pendaftar`, `d`.`tgl_daftar` AS `tgl_daftar` FROM ((`t_pendaftaran` `d` join `t_jadwal` `j` on(`d`.`id_jadwal` = `j`.`id_jadwal`)) join `masuk` `u` on(`d`.`id_user` = `u`.`id_user`)) ORDER BY `j`.`tanggal` DESC ;
+CREATE ALGORITHM=UNDEFINED VIEW `v_laporan_kegiatan`  AS SELECT `d`.`id_daftar` AS `id_daftar`, `j`.`nama_kegiatan` AS `nama_kegiatan`, `j`.`tanggal` AS `tgl_kegiatan`, `j`.`waktu` AS `waktu`, `j`.`tempat` AS `tempat`, `u`.`nama_lengkap` AS `nama_pendaftar`, `d`.`tgl_daftar` AS `tgl_daftar` FROM ((`t_pendaftaran` `d` join `t_jadwal` `j` on(`d`.`id_jadwal` = `j`.`id_jadwal`)) join `masuk` `u` on(`d`.`id_user` = `u`.`id_user`)) ORDER BY `j`.`tanggal` DESC ;
 
 -- --------------------------------------------------------
 
@@ -286,7 +286,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `v_laporan_tumbuh_kembang`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_laporan_tumbuh_kembang`  AS SELECT `p`.`id_penimbangan` AS `id_penimbangan`, `a`.`nama_anak` AS `nama_anak`, `a`.`jenis_kelamin` AS `jenis_kelamin`, `a`.`tanggal_lahir` AS `tanggal_lahir`, `o`.`nama_ibu` AS `nama_ibu`, `o`.`alamat_ortu` AS `alamat_ortu`, `p`.`tgl_penimbangan` AS `tgl_penimbangan`, `p`.`umur` AS `umur_bulan`, `p`.`berat_badan` AS `berat_badan`, `p`.`tinggi_badan` AS `tinggi_badan`, `p`.`keterangan` AS `keterangan`, `p`.`petugas` AS `petugas`, `p`.`posyandu` AS `posyandu` FROM ((`t_penimbangan` `p` join `t_anak` `a` on(`p`.`id_anak` = `a`.`id_anak`)) left join `t_orangtua` `o` on(`a`.`id_orangtua` = `o`.`id_orangtua`)) ORDER BY `p`.`tgl_penimbangan` DESC ;
+CREATE ALGORITHM=UNDEFINED VIEW `v_laporan_tumbuh_kembang`  AS SELECT `p`.`id_penimbangan` AS `id_penimbangan`, `a`.`nama_anak` AS `nama_anak`, `a`.`jenis_kelamin` AS `jenis_kelamin`, `a`.`tanggal_lahir` AS `tanggal_lahir`, `o`.`nama_ibu` AS `nama_ibu`, `o`.`alamat_ortu` AS `alamat_ortu`, `p`.`tgl_penimbangan` AS `tgl_penimbangan`, `p`.`umur` AS `umur_bulan`, `p`.`berat_badan` AS `berat_badan`, `p`.`tinggi_badan` AS `tinggi_badan`, `p`.`keterangan` AS `keterangan`, `p`.`petugas` AS `petugas`, `p`.`posyandu` AS `posyandu` FROM ((`t_penimbangan` `p` join `t_anak` `a` on(`p`.`id_anak` = `a`.`id_anak`)) left join `t_orangtua` `o` on(`a`.`id_orangtua` = `o`.`id_orangtua`)) ORDER BY `p`.`tgl_penimbangan` DESC ;
 
 --
 -- Indexes for dumped tables

@@ -13,11 +13,24 @@ if ($db_url) {
     $db   = isset($url['path']) ? ltrim($url['path'], '/') : "dbsipograf1";
     $port = $url['port'] ?? 3306;
 } else {
+    
+// Menghubungkan otomatis jika menggunakan Coolify MariaDB / Database URL
+$db_url = getenv('DATABASE_URL') ?: "mysql://mysql:poAAEXvLO3QsOiYz66me2qBciagEvbpg1To3kf2VXYUagDEht6sXzcSbV21uJnZI@87.239.129.130:55431/default";
+if ($db_url) {
+    $url = parse_url($db_url);
+    $host = $url['host'] ?? "127.0.0.1";
+    $user = $url['user'] ?? "root";
+    $pass = $url['pass'] ?? "";
+    $db   = isset($url['path']) ? ltrim($url['path'], '/') : "dbsipograf1";
+    $port = $url['port'] ?? 3306;
+} else {
     $host = getenv('DB_HOST') ?: "localhost";
     $user = getenv('DB_USER') ?: "root";
     $pass = getenv('DB_PASS') !== false ? getenv('DB_PASS') : "";
     $db   = getenv('DB_NAME') ?: "dbsipograf1";
     $port = getenv('DB_PORT') ?: 3306;
+}
+
 }
 
 
