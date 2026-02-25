@@ -1,0 +1,12 @@
+RewriteEngine On
+
+# Allow authorization headers
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Handle POST requests appropriately
+<FilesMatch "\.(html|htm)$">
+    <Limit POST PUT OPTIONS>
+        Require all granted
+    </Limit>
+</FilesMatch>
