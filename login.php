@@ -3,54 +3,57 @@
 session_start();
 
 // Konfigurasi database
-$servername = "localhost:3307";
-$username = "root";
-$password = "";
-$dbname = "dbsipograf1";
+$servername = getenv('DB_HOST') ?: "localhost:3307";
+$username = getenv('DB_USER') ?: "root";
+$password = getenv('DB_PASS') !== false ? getenv('DB_PASS') : "";
+$dbname = getenv('DB_NAME') ?: "dbsipograf1";
 
 // Membuat koneksi ke database
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Memeriksa koneksi
 if ($conn->connect_error) {
-    die("Koneksi gagal: " . $conn->connect_error);
+  die("Koneksi gagal: " . $conn->connect_error);
 }
 
 // Memeriksa jika form login dikirimkan
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Mencegah SQL Injection sederhana dengan real_escape_string
-    $username = $conn->real_escape_string($_POST["username"]);
-    $password = $conn->real_escape_string($_POST["password"]);
+  // Mencegah SQL Injection sederhana dengan real_escape_string
+  $username = $conn->real_escape_string($_POST["username"]);
+  $password = $conn->real_escape_string($_POST["password"]);
 
-    // QUERY: Pastikan tabel 'masuk' Anda memiliki kolom 'role' (admin/user)
-    $sql = "SELECT * FROM masuk WHERE username = '$username' AND password = '$password'";
-    $result = $conn->query($sql);
+  // QUERY: Pastikan tabel 'masuk' Anda memiliki kolom 'role' (admin/user)
+  $sql = "SELECT * FROM masuk WHERE username = '$username' AND password = '$password'";
+  $result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
-        // Ambil data user dari database
-        $row = $result->fetch_assoc();
+  if ($result->num_rows > 0) {
+    // Ambil data user dari database
+    $row = $result->fetch_assoc();
 
-        // Simpan data ke session
-        $_SESSION['username'] = $username;
-        $_SESSION['role'] = $row['role']; // Pastikan nama kolom di DB adalah 'role'
+    // Simpan data ke session
+    $_SESSION['username'] = $username;
+    $_SESSION['role'] = $row['role']; // Pastikan nama kolom di DB adalah 'role'
 
-        // LOGIKA PEMISAH HALAMAN
-        if ($row['role'] == 'admin') {
-            // Jika role adalah admin, arahkan ke halaman admin
-            header("Location:data_anak.php");
-        } else if ($row['role'] == 'user') {
-            // Jika role adalah user, arahkan ke halaman user
-            header("Location: home_user.php");
-        } else {
-            // Jika role tidak dikenali, arahkan ke default
-            header("Location: index.php");
-        }
-        exit();
-        
-    } else {
-        // Login gagal
-        $error_msg = "Username atau password salah.";
+    // LOGIKA PEMISAH HALAMAN
+    if ($row['role'] == 'admin') {
+      // Jika role adalah admin, arahkan ke halaman admin
+      header("Location:data_anak.php");
     }
+    else if ($row['role'] == 'user') {
+      // Jika role adalah user, arahkan ke halaman user
+      header("Location: home_user.php");
+    }
+    else {
+      // Jika role tidak dikenali, arahkan ke default
+      header("Location: index.php");
+    }
+    exit();
+
+  }
+  else {
+    // Login gagal
+    $error_msg = "Username atau password salah.";
+  }
 }
 // Menutup koneksi
 $conn->close();
@@ -88,9 +91,17 @@ $conn->close();
     }
 
     @keyframes frame-anim {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-      100% { transform: scale(1); }
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.02);
+      }
+
+      100% {
+        transform: scale(1);
+      }
     }
 
     label {
@@ -127,7 +138,10 @@ $conn->close();
     .login-box button::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       border: 2px solid #03e9f4;
       border-radius: 5px;
       opacity: 0;
@@ -142,34 +156,44 @@ $conn->close();
     }
 
     @keyframes neon-anim {
-      0% { transform: scale(0) rotate(0deg); }
-      100% { transform: scale(1) rotate(360deg); }
+      0% {
+        transform: scale(0) rotate(0deg);
+      }
+
+      100% {
+        transform: scale(1) rotate(360deg);
+      }
     }
 
     /* --- STYLE TOMBOL KEMBALI (BARU) --- */
     .btn-back {
-        display: inline-block;
-        background-color: #dc3545; /* Merah */
-        color: white;
-        padding: 10px 15px;
-        text-decoration: none; /* Hilangkan garis bawah link */
-        border-radius: 4px;
-        font-size: 16px;
-        cursor: pointer;
-        margin-left: 10px; /* Jarak dari tombol login */
-        border: none;
-        transition: 0.3s;
+      display: inline-block;
+      background-color: #dc3545;
+      /* Merah */
+      color: white;
+      padding: 10px 15px;
+      text-decoration: none;
+      /* Hilangkan garis bawah link */
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-left: 10px;
+      /* Jarak dari tombol login */
+      border: none;
+      transition: 0.3s;
     }
 
     .btn-back:hover {
-        background-color: #a71d2a; /* Merah lebih gelap saat hover */
+      background-color: #a71d2a;
+      /* Merah lebih gelap saat hover */
     }
 
     .button-container {
-        display: flex;
-        justify-content: center; /* Posisi tombol di tengah */
-        align-items: center;
-        margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      /* Posisi tombol di tengah */
+      align-items: center;
+      margin-top: 10px;
     }
 
     /* Style untuk blok notifikasi error */
@@ -204,12 +228,12 @@ $conn->close();
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
       </div>
-      
+
       <?php
-      if (isset($error_msg)) {
-        echo '<div class="error-msg">' . $error_msg . '</div>';
-      }
-      ?>
+if (isset($error_msg)) {
+  echo '<div class="error-msg">' . $error_msg . '</div>';
+}
+?>
 
       <div class="button-container">
         <button type="submit">Login</button>

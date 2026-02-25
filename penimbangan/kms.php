@@ -118,11 +118,11 @@
     $id_anak = isset($_GET["id_anak"]) ? $_GET["id_anak"] : 0; 
 
     // 2. KONFIGURASI KONEKSI (DENGAN PORT 3307)
-    $host = "127.0.0.1";
-    $user = "root";
-    $pass = "";
-    $db   = "dbsipograf1"; 
-    $port = 3307; // <--- PENTING: Port diset ke 3307
+    $host = getenv('DB_HOST') ?: "127.0.0.1";
+$user = getenv('DB_USER') ?: "root";
+$pass = getenv('DB_PASS') !== false ? getenv('DB_PASS') : "";
+$db   = getenv('DB_NAME') ?: "dbsipograf1";
+$port = getenv('DB_PORT') ?: 3307; // <--- PENTING: Port diset ke 3307
 
     // Menghubungkan ke database dengan port spesifik
     $conn = mysqli_connect($host, $user, $pass, $db, $port);
