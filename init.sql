@@ -27,6 +27,7 @@ SET time_zone = "+00:00";
 -- Struktur dari tabel `masuk`
 --
 
+DROP TABLE IF EXISTS `masuk`;
 CREATE TABLE `masuk` (
   `id_user` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
@@ -51,6 +52,7 @@ INSERT INTO `masuk` (`id_user`, `username`, `password`, `nama_lengkap`, `role`) 
 -- Struktur dari tabel `t_anak`
 --
 
+DROP TABLE IF EXISTS `t_anak`;
 CREATE TABLE `t_anak` (
   `id_anak` int(11) NOT NULL,
   `nama_anak` varchar(100) NOT NULL,
@@ -78,6 +80,7 @@ INSERT INTO `t_anak` (`id_anak`, `nama_anak`, `id_orangtua`, `tempat_lahir`, `ta
 -- Struktur dari tabel `t_galeri`
 --
 
+DROP TABLE IF EXISTS `t_galeri`;
 CREATE TABLE `t_galeri` (
   `id_galeri` int(11) NOT NULL,
   `judul` varchar(255) NOT NULL,
@@ -99,6 +102,7 @@ INSERT INTO `t_galeri` (`id_galeri`, `judul`, `nama_file`, `tanggal_upload`, `ke
 -- Struktur dari tabel `t_jadwal`
 --
 
+DROP TABLE IF EXISTS `t_jadwal`;
 CREATE TABLE `t_jadwal` (
   `id_jadwal` int(11) NOT NULL,
   `nama_kegiatan` varchar(255) NOT NULL,
@@ -126,6 +130,7 @@ INSERT INTO `t_jadwal` (`id_jadwal`, `nama_kegiatan`, `tanggal`, `waktu`, `tempa
 -- Struktur dari tabel `t_orangtua`
 --
 
+DROP TABLE IF EXISTS `t_orangtua`;
 CREATE TABLE `t_orangtua` (
   `id_orangtua` int(11) NOT NULL,
   `nama_ibu` varchar(100) NOT NULL,
@@ -150,6 +155,7 @@ INSERT INTO `t_orangtua` (`id_orangtua`, `nama_ibu`, `nama_ayah`, `alamat_ortu`,
 -- Struktur dari tabel `t_pendaftaran`
 --
 
+DROP TABLE IF EXISTS `t_pendaftaran`;
 CREATE TABLE `t_pendaftaran` (
   `id_daftar` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
@@ -178,6 +184,7 @@ INSERT INTO `t_pendaftaran` (`id_daftar`, `id_user`, `id_jadwal`, `id_anak`, `tg
 -- Struktur dari tabel `t_penimbangan`
 --
 
+DROP TABLE IF EXISTS `t_penimbangan`;
 CREATE TABLE `t_penimbangan` (
   `id_penimbangan` int(11) NOT NULL,
   `id_anak` int(11) NOT NULL,
@@ -213,6 +220,7 @@ INSERT INTO `t_penimbangan` (`id_penimbangan`, `id_anak`, `tgl_penimbangan`, `um
 -- Struktur dari tabel `t_vaksin`
 --
 
+DROP TABLE IF EXISTS `t_vaksin`;
 CREATE TABLE `t_vaksin` (
   `id_vaksin` int(11) NOT NULL,
   `nama_vaksin` varchar(100) NOT NULL,
@@ -238,6 +246,7 @@ INSERT INTO `t_vaksin` (`id_vaksin`, `nama_vaksin`, `stok`, `satuan`, `keteranga
 -- Stand-in struktur untuk tampilan `v_laporan_kegiatan`
 -- (Lihat di bawah untuk tampilan aktual)
 --
+DROP TABLE IF EXISTS `v_laporan_kegiatan`;
 CREATE TABLE `v_laporan_kegiatan` (
 `id_daftar` int(11)
 ,`nama_kegiatan` varchar(255)
@@ -254,6 +263,7 @@ CREATE TABLE `v_laporan_kegiatan` (
 -- Stand-in struktur untuk tampilan `v_laporan_tumbuh_kembang`
 -- (Lihat di bawah untuk tampilan aktual)
 --
+DROP TABLE IF EXISTS `v_laporan_tumbuh_kembang`;
 CREATE TABLE `v_laporan_tumbuh_kembang` (
 `id_penimbangan` int(11)
 ,`nama_anak` varchar(100)
