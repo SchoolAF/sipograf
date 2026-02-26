@@ -9,17 +9,8 @@ session_start();
 $host = "tksg48cgw04gk08sowc84sss";
 $user = "mysql";
 $pass = "poAAEXvLO3QsOiYz66me2qBciagEvbpg1To3kf2VXYUagDEht6sXzcSbV21uJnZI";
-$db   = "default";
+$db = "default";
 $port = 3306;
-
-}
-
-}
-
-}
-
-}
-
 
 $koneksi = mysqli_connect($host, $user, $pass, $db, $port);
 
@@ -206,26 +197,28 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
 
         <?php if (isset($_GET['status']) && $_GET['status'] == 'hapus_sukses'): ?>
             <script>Swal.fire('Berhasil!', 'Data pendaftar telah dihapus.', 'success');</script>
-        <?php elseif (isset($_GET['status']) && $_GET['status'] == 'gagal'): ?>
+        <?php
+elseif (isset($_GET['status']) && $_GET['status'] == 'gagal'): ?>
             <script>Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus.', 'error');</script>
-        <?php endif; ?>
+        <?php
+endif; ?>
 
         <h6 class="fw-bold text-muted text-uppercase mb-3"><i class="fas fa-chart-pie me-2"></i>Rekapitulasi Pendaftar</h6>
         <div class="row mb-4">
             <?php
-            // Query untuk menghitung jumlah pendaftar per jadwal (GROUP BY)
-            $query_stats = "SELECT j.nama_kegiatan, j.tanggal, COUNT(p.id_daftar) as total_peserta
+// Query untuk menghitung jumlah pendaftar per jadwal (GROUP BY)
+$query_stats = "SELECT j.nama_kegiatan, j.tanggal, COUNT(p.id_daftar) as total_peserta
                             FROM t_jadwal j
                             LEFT JOIN t_pendaftaran p ON j.id_jadwal = p.id_jadwal
                             GROUP BY j.id_jadwal
                             HAVING total_peserta > 0
                             ORDER BY j.tanggal DESC";
-            
-            $result_stats = mysqli_query($koneksi, $query_stats);
-            
-            if (mysqli_num_rows($result_stats) > 0) {
-                while($stat = mysqli_fetch_assoc($result_stats)) {
-                    ?>
+
+$result_stats = mysqli_query($koneksi, $query_stats);
+
+if (mysqli_num_rows($result_stats) > 0) {
+    while ($stat = mysqli_fetch_assoc($result_stats)) {
+?>
                     <div class="col-md-4 col-sm-6 mb-3">
                         <div class="stat-card d-flex justify-content-between align-items-center">
                             <div>
@@ -239,11 +232,12 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
                         </div>
                     </div>
                     <?php
-                }
-            } else {
-                echo '<div class="col-12"><div class="alert alert-info">Belum ada peserta yang mendaftar di kegiatan manapun.</div></div>';
-            }
-            ?>
+    }
+}
+else {
+    echo '<div class="col-12"><div class="alert alert-info">Belum ada peserta yang mendaftar di kegiatan manapun.</div></div>';
+}
+?>
         </div>
 
         <div class="row">
@@ -272,24 +266,24 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
                             </thead>
                             <tbody>
                                 <?php
-                                // Query JOIN 3 Tabel untuk detail
-                                $query = "SELECT p.id_daftar, p.tgl_daftar, u.username, u.nama_lengkap, j.nama_kegiatan, j.tanggal
+// Query JOIN 3 Tabel untuk detail
+$query = "SELECT p.id_daftar, p.tgl_daftar, u.username, u.nama_lengkap, j.nama_kegiatan, j.tanggal
                                           FROM t_pendaftaran p
                                           JOIN masuk u ON p.id_user = u.id_user
                                           JOIN t_jadwal j ON p.id_jadwal = j.id_jadwal
                                           ORDER BY p.tgl_daftar DESC";
-                                
-                                $result = mysqli_query($koneksi, $query);
-                                $no = 1;
 
-                                if (mysqli_num_rows($result) > 0) {
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        $nama_tampil = !empty($row['nama_lengkap']) ? $row['nama_lengkap'] : $row['username'];
-                                        $inisial = strtoupper(substr($nama_tampil, 0, 1));
-                                        
-                                        $tgl_kegiatan = date('d M Y', strtotime($row['tanggal']));
-                                        $tgl_daftar = date('d/m/Y H:i', strtotime($row['tgl_daftar']));
-                                        ?>
+$result = mysqli_query($koneksi, $query);
+$no = 1;
+
+if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $nama_tampil = !empty($row['nama_lengkap']) ? $row['nama_lengkap'] : $row['username'];
+        $inisial = strtoupper(substr($nama_tampil, 0, 1));
+
+        $tgl_kegiatan = date('d M Y', strtotime($row['tanggal']));
+        $tgl_daftar = date('d/m/Y H:i', strtotime($row['tgl_daftar']));
+?>
                                         <tr>
                                             <td class="text-center"><?= $no++; ?></td>
                                             <td>
@@ -317,11 +311,12 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
                                             </td>
                                         </tr>
                                         <?php
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='5' class='text-center py-5 text-muted'><i class='fas fa-user-slash fa-3x mb-3'></i><br>Belum ada pendaftar yang masuk.</td></tr>";
-                                }
-                                ?>
+    }
+}
+else {
+    echo "<tr><td colspan='5' class='text-center py-5 text-muted'><i class='fas fa-user-slash fa-3x mb-3'></i><br>Belum ada pendaftar yang masuk.</td></tr>";
+}
+?>
                             </tbody>
                         </table>
                     </div>
