@@ -9,16 +9,8 @@ session_start();
 $host = "tksg48cgw04gk08sowc84sss";
 $user = "mysql";
 $pass = "poAAEXvLO3QsOiYz66me2qBciagEvbpg1To3kf2VXYUagDEht6sXzcSbV21uJnZI";
-$db   = "default";
+$db = "default";
 $port = 3306;
-
-}
-
-}
-
-}
-
-}
 
 
 $koneksi = mysqli_connect($host, $user, $pass, $db, $port);
@@ -35,11 +27,12 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Kelola Jadwal</title>
-    
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -61,7 +54,7 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
             transition: all 0.3s;
             z-index: 999;
         }
-        
+
         .sidebar-brand {
             font-size: 1.5rem;
             font-weight: bold;
@@ -84,7 +77,8 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
             transition: all 0.2s;
         }
 
-        .sidebar-link:hover, .sidebar-link.active {
+        .sidebar-link:hover,
+        .sidebar-link.active {
             background-color: rgba(255, 255, 255, 0.2);
             color: #fff;
             transform: translateX(5px);
@@ -108,7 +102,7 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
             background-color: #fff;
             padding: 15px 30px;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -119,7 +113,7 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
         .card-custom {
             border: none;
             border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             background-color: #fff;
         }
 
@@ -132,36 +126,45 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
 
         /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
-            .sidebar { margin-left: -260px; }
-            .sidebar.active { margin-left: 0; }
-            .main-content { margin-left: 0; }
+            .sidebar {
+                margin-left: -260px;
+            }
+
+            .sidebar.active {
+                margin-left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="sidebar" id="sidebar">
         <div class="sidebar-brand">
             <i class="fas fa-heartbeat me-2"></i> SiMona Admin
         </div>
-            </a>
-            <a href="data_anak.php" class="sidebar-link">
-                <i class="fas fa-child"></i> Data Anak
-            </a>
-            <a href="#" class="sidebar-link active">
-                <i class="fas fa-calendar-alt"></i> Kelola Jadwal
-            </a>
-            <a href="admin_lihat_pendaftar.php" class="sidebar-link">
-                <i class="fas fa-users"></i> Pendaftar
-            </a>
-            <a href="logout.php" class="sidebar-link mt-5 text-warning">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </a>
-        </div>
+        </a>
+        <a href="data_anak.php" class="sidebar-link">
+            <i class="fas fa-child"></i> Data Anak
+        </a>
+        <a href="#" class="sidebar-link active">
+            <i class="fas fa-calendar-alt"></i> Kelola Jadwal
+        </a>
+        <a href="admin_lihat_pendaftar.php" class="sidebar-link">
+            <i class="fas fa-users"></i> Pendaftar
+        </a>
+        <a href="logout.php" class="sidebar-link mt-5 text-warning">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
     </div>
 
     <div class="main-content">
-        
+
         <div class="top-navbar">
             <button class="btn btn-outline-primary d-md-none" id="sidebarToggle">
                 <i class="fas fa-bars"></i>
@@ -169,22 +172,29 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
             <h5 class="m-0 fw-bold text-secondary">Manajemen Jadwal Kegiatan</h5>
             <div class="d-flex align-items-center">
                 <div class="me-3 text-end d-none d-sm-block">
-                    <span class="d-block fw-bold text-dark"><?= htmlspecialchars($admin_name); ?></span>
+                    <span class="d-block fw-bold text-dark">
+                        <?= htmlspecialchars($admin_name); ?>
+                    </span>
                     <small class="text-muted">Administrator</small>
                 </div>
-                <img src="https://ui-avatars.com/api/?name=Admin&background=0d6efd&color=fff" class="rounded-circle" width="40">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=0d6efd&color=fff" class="rounded-circle"
+                    width="40">
             </div>
         </div>
 
         <?php if (isset($_GET['pesan'])): ?>
-            <?php if ($_GET['pesan'] == 'sukses'): ?>
-                <script>Swal.fire('Berhasil!', 'Data jadwal berhasil disimpan.', 'success');</script>
-            <?php elseif ($_GET['pesan'] == 'hapus'): ?>
-                <script>Swal.fire('Berhasil!', 'Data jadwal berhasil dihapus.', 'success');</script>
-            <?php elseif ($_GET['pesan'] == 'gagal'): ?>
-                <script>Swal.fire('Gagal!', 'Terjadi kesalahan sistem.', 'error');</script>
-            <?php endif; ?>
-        <?php endif; ?>
+        <?php if ($_GET['pesan'] == 'sukses'): ?>
+        <script>Swal.fire('Berhasil!', 'Data jadwal berhasil disimpan.', 'success');</script>
+        <?php
+    elseif ($_GET['pesan'] == 'hapus'): ?>
+        <script>Swal.fire('Berhasil!', 'Data jadwal berhasil dihapus.', 'success');</script>
+        <?php
+    elseif ($_GET['pesan'] == 'gagal'): ?>
+        <script>Swal.fire('Gagal!', 'Terjadi kesalahan sistem.', 'error');</script>
+        <?php
+    endif; ?>
+        <?php
+endif; ?>
 
         <div class="row mb-4">
             <div class="col-12">
@@ -194,7 +204,8 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
                             <h4 class="fw-bold text-primary mb-1">Daftar Jadwal Posyandu</h4>
                             <p class="text-muted mb-0">Kelola jadwal kegiatan rutin bulanan di sini.</p>
                         </div>
-                        <button type="button" class="btn btn-primary px-4 py-2" data-bs-toggle="modal" data-bs-target="#modalJadwal" onclick="resetForm()">
+                        <button type="button" class="btn btn-primary px-4 py-2" data-bs-toggle="modal"
+                            data-bs-target="#modalJadwal" onclick="resetForm()">
                             <i class="fas fa-plus-circle me-2"></i> Tambah Jadwal
                         </button>
                     </div>
@@ -213,27 +224,38 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
                             </thead>
                             <tbody>
                                 <?php
-                                $no = 1;
-                                $query = mysqli_query($koneksi, "SELECT * FROM t_jadwal ORDER BY tanggal DESC");
-                                
-                                if (mysqli_num_rows($query) > 0) {
-                                    while ($row = mysqli_fetch_assoc($query)) {
-                                        $tgl = date('d M Y', strtotime($row['tanggal']));
-                                        ?>
-                                        <tr>
-                                            <td class="text-center"><?= $no++; ?></td>
-                                            <td class="fw-bold text-dark"><?= htmlspecialchars($row['nama_kegiatan']); ?></td>
-                                            <td><span class="badge bg-info text-dark"><i class="far fa-calendar me-1"></i> <?= $tgl; ?></span></td>
-                                            <td>
-                                                <small class="d-block text-muted"><i class="far fa-clock me-1"></i> <?= htmlspecialchars($row['waktu']); ?></small>
-                                                <small class="d-block fw-bold"><i class="fas fa-map-marker-alt me-1 text-danger"></i> <?= htmlspecialchars($row['tempat']); ?></small>
-                                            </td>
-                                            <td class="text-muted small"><?= mb_strimwidth($row['deskripsi'], 0, 50, "..."); ?></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-warning" 
-                                                    data-bs-toggle="modal" 
-                                                    data-bs-target="#modalJadwal"
-                                                    onclick="editData(
+$no = 1;
+$query = mysqli_query($koneksi, "SELECT * FROM t_jadwal ORDER BY tanggal DESC");
+
+if (mysqli_num_rows($query) > 0) {
+    while ($row = mysqli_fetch_assoc($query)) {
+        $tgl = date('d M Y', strtotime($row['tanggal']));
+?>
+                                <tr>
+                                    <td class="text-center">
+                                        <?= $no++; ?>
+                                    </td>
+                                    <td class="fw-bold text-dark">
+                                        <?= htmlspecialchars($row['nama_kegiatan']); ?>
+                                    </td>
+                                    <td><span class="badge bg-info text-dark"><i class="far fa-calendar me-1"></i>
+                                            <?= $tgl; ?>
+                                        </span></td>
+                                    <td>
+                                        <small class="d-block text-muted"><i class="far fa-clock me-1"></i>
+                                            <?= htmlspecialchars($row['waktu']); ?>
+                                        </small>
+                                        <small class="d-block fw-bold"><i
+                                                class="fas fa-map-marker-alt me-1 text-danger"></i>
+                                            <?= htmlspecialchars($row['tempat']); ?>
+                                        </small>
+                                    </td>
+                                    <td class="text-muted small">
+                                        <?= mb_strimwidth($row['deskripsi'], 0, 50, "..."); ?>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal"
+                                            data-bs-target="#modalJadwal" onclick="editData(
                                                         '<?= $row['id_jadwal']; ?>',
                                                         '<?= addslashes($row['nama_kegiatan']); ?>',
                                                         '<?= $row['tanggal']; ?>',
@@ -241,22 +263,23 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
                                                         '<?= addslashes($row['tempat']); ?>',
                                                         '<?= addslashes($row['deskripsi']); ?>'
                                                     )">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                
-                                                <a href="proses_admin_jadwal.php?aksi=hapus&id=<?= $row['id_jadwal']; ?>" 
-                                                   class="btn btn-sm btn-outline-danger ms-1"
-                                                   onclick="return confirm('Yakin ingin menghapus jadwal ini? Data pendaftar juga mungkin akan hilang.')">
-                                                   <i class="fas fa-trash-alt"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                    }
-                                } else {
-                                    echo "<tr><td colspan='6' class='text-center py-5 text-muted'><i class='fas fa-inbox fa-3x mb-3'></i><br>Belum ada data jadwal kegiatan.</td></tr>";
-                                }
-                                ?>
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+
+                                        <a href="proses_admin_jadwal.php?aksi=hapus&id=<?= $row['id_jadwal']; ?>"
+                                            class="btn btn-sm btn-outline-danger ms-1"
+                                            onclick="return confirm('Yakin ingin menghapus jadwal ini? Data pendaftar juga mungkin akan hilang.')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php
+    }
+}
+else {
+    echo "<tr><td colspan='6' class='text-center py-5 text-muted'><i class='fas fa-inbox fa-3x mb-3'></i><br>Belum ada data jadwal kegiatan.</td></tr>";
+}
+?>
                             </tbody>
                         </table>
                     </div>
@@ -270,7 +293,8 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
             <div class="modal-content border-0 shadow">
                 <form action="proses_admin_jadwal.php" method="POST">
                     <div class="modal-header bg-primary text-white">
-                        <h5 class="modal-title fw-bold" id="modalTitle"><i class="fas fa-plus-circle me-2"></i> Tambah Jadwal</h5>
+                        <h5 class="modal-title fw-bold" id="modalTitle"><i class="fas fa-plus-circle me-2"></i> Tambah
+                            Jadwal</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body p-4">
@@ -279,7 +303,8 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
 
                         <div class="mb-3">
                             <label class="form-label fw-bold small text-uppercase">Nama Kegiatan</label>
-                            <input type="text" name="nama_kegiatan" id="nama_kegiatan" class="form-control" placeholder="Contoh: Imunisasi Campak" required>
+                            <input type="text" name="nama_kegiatan" id="nama_kegiatan" class="form-control"
+                                placeholder="Contoh: Imunisasi Campak" required>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -288,21 +313,25 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold small text-uppercase">Waktu</label>
-                                <input type="text" name="waktu" id="waktu" class="form-control" placeholder="08:00 - 11:00" required>
+                                <input type="text" name="waktu" id="waktu" class="form-control"
+                                    placeholder="08:00 - 11:00" required>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold small text-uppercase">Tempat / Lokasi</label>
-                            <input type="text" name="tempat" id="tempat" class="form-control" placeholder="Nama Posyandu / Balai Desa" required>
+                            <input type="text" name="tempat" id="tempat" class="form-control"
+                                placeholder="Nama Posyandu / Balai Desa" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold small text-uppercase">Deskripsi</label>
-                            <textarea name="deskripsi" id="deskripsi" class="form-control" rows="3" placeholder="Tambahkan catatan untuk peserta..."></textarea>
+                            <textarea name="deskripsi" id="deskripsi" class="form-control" rows="3"
+                                placeholder="Tambahkan catatan untuk peserta..."></textarea>
                         </div>
                     </div>
                     <div class="modal-footer bg-light">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary px-4"><i class="fas fa-save me-1"></i> Simpan Data</button>
+                        <button type="submit" class="btn btn-primary px-4"><i class="fas fa-save me-1"></i> Simpan
+                            Data</button>
                     </div>
                 </form>
             </div>
@@ -313,7 +342,7 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
 
     <script>
         // Toggle Sidebar pada Mobile
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
+        document.getElementById('sidebarToggle').addEventListener('click', function () {
             document.getElementById('sidebar').classList.toggle('active');
         });
 
@@ -342,4 +371,5 @@ $admin_name = $_SESSION['nama_lengkap'] ?? "Administrator";
         }
     </script>
 </body>
+
 </html>
